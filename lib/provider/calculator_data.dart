@@ -7,17 +7,32 @@ class CalculatorData with ChangeNotifier {
   String expression = '';
   String btnText = '';
   String bracketText = '';
-  String xBracket = '';
   String processText = '';
-  List<String> numbers = ['0', '2', '3'];
-  bool inList = false;
+  List<String> numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  List<String> operators = ['×', '-', '+', '÷'];
+
+  String get controllerText {
+    return textEditingController.text;
+  }
+
+  String get controllerLastCharacter {
+    if (textEditingController.text != '') {
+      return controllerText.characters.last;
+    } else {
+      return '';
+    }
+  }
+
+  String get processLastCharacter {
+    return processText.characters.last;
+  }
 
   void buttonPressed({required String buttonText}) {
     if (buttonText == 'ln') {
       buttonText = 'ln(';
       bracketText = '(';
     }
-    if (textEditingController.text.endsWith(')')) {
+    if (controllerLastCharacter == ')') {
       processText += '×' + buttonText;
       textEditingController.text += '×' + buttonText;
     } else {
@@ -29,16 +44,12 @@ class CalculatorData with ChangeNotifier {
 
   void bracketPressed({required String buttonText}) {
     bracketText = buttonText;
-    if (textEditingController.text != '') {
+    if (controllerText != '') {
       if (bracketText == '(') {
-        if (!textEditingController.text.endsWith('×') &&
-            !textEditingController.text.endsWith('-') &&
-            !textEditingController.text.endsWith('+') &&
-            !textEditingController.text.endsWith('÷') &&
-            !textEditingController.text.endsWith('(')) {
-          xBracket += ')';
+        if (!operators.contains(controllerLastCharacter) &&
+            controllerLastCharacter != '(') {
           bracketText = '×(';
-          if (!processText.endsWith('3')) {
+          if (processText != expression) {
             processText += ')';
           }
         } else {
@@ -49,12 +60,11 @@ class CalculatorData with ChangeNotifier {
 
     processText += bracketText;
     textEditingController.text += bracketText;
-
     notifyListeners();
   }
 
   void deleteCharacter() {
-    if (textEditingController.text != '') {
+    if (controllerText != '') {
       textEditingController.text = textEditingController.text
           .substring(0, textEditingController.text.length - 1);
       processText = processText.substring(0, processText.length - 1);
@@ -99,7 +109,7 @@ class CalculatorData with ChangeNotifier {
 
   void backSpacePressed() {
     deleteCharacter();
-    if (textEditingController.text == '') {
+    if (controllerText == '') {
       result = '0';
     }
     notifyListeners();
@@ -115,11 +125,8 @@ class CalculatorData with ChangeNotifier {
     double value;
 
     if (textEditingController.text != '') {
-      if (!textEditingController.text.endsWith('×') &&
-          !textEditingController.text.endsWith('-') &&
-          !textEditingController.text.endsWith('+') &&
-          !textEditingController.text.endsWith('÷') &&
-          !textEditingController.text.endsWith(')')) {
+      if (!operators.contains(controllerLastCharacter) &&
+          controllerLastCharacter != ')') {
         if (bracketText == ')' || bracketText == '') {
           expression = processText;
         } else {
@@ -132,7 +139,8 @@ class CalculatorData with ChangeNotifier {
     expression = expression.replaceAll('÷', '/');
     expression = expression.replaceAll(',', '.');
     print(expression);
-    if (btnText != '%') {
+    print(processText);
+    if (controllerLastCharacter != '%') {
       expression = expression.replaceAll('%', '*10/1000*0');
     } else {
       expression = expression.replaceAll('%', '*10/1000');
