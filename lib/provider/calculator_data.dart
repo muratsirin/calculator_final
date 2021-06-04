@@ -30,7 +30,11 @@ class CalculatorData with ChangeNotifier {
   void buttonPressed({required String buttonText}) {
     if (buttonText == 'ln') {
       buttonText = 'ln(';
-      bracketText = '(';
+      if (bracketText != '(') {
+        bracketText = '(';
+      }
+
+      btnText = 'ln(';
     }
     if (controllerLastCharacter == ')') {
       processText += '×' + buttonText;
@@ -50,7 +54,10 @@ class CalculatorData with ChangeNotifier {
             controllerLastCharacter != '(') {
           bracketText = '×(';
           if (processText != expression) {
-            processText += ')';
+            if (numbers.contains(processLastCharacter) &&
+                !numbers.contains(expression.characters.last)) {
+              processText += ')';
+            }
           }
         } else {
           bracketText = '(';
@@ -73,37 +80,35 @@ class CalculatorData with ChangeNotifier {
   }
 
   void operatorButtonPressed({required String buttonText}) {
-    if (!textEditingController.text.endsWith('×') &&
-        !textEditingController.text.endsWith('-') &&
-        !textEditingController.text.endsWith('+') &&
-        !textEditingController.text.endsWith('÷')) {
+    if (!operators.contains(controllerLastCharacter)) {
       processText += buttonText;
       textEditingController.text += buttonText;
-    } else if (textEditingController.text.endsWith('×') &&
+    } else if (controllerLastCharacter == '×' &&
         buttonText != '×' &&
         buttonText != '-') {
       deleteCharacter();
       processText += buttonText;
       textEditingController.text += buttonText;
-    } else if (textEditingController.text.endsWith('÷') &&
+    } else if (controllerLastCharacter == '÷' &&
         buttonText != '÷' &&
         buttonText != '-') {
       deleteCharacter();
       processText += buttonText;
       textEditingController.text += buttonText;
-    } else if (textEditingController.text.endsWith('-') && buttonText != '-') {
+    } else if (controllerLastCharacter == '-' && buttonText != '-') {
       deleteCharacter();
       processText += buttonText;
       textEditingController.text += buttonText;
-    } else if (textEditingController.text.endsWith('+') && buttonText != '+') {
+    } else if (controllerLastCharacter == '+' && buttonText != '+') {
       deleteCharacter();
       processText += buttonText;
       textEditingController.text += buttonText;
-    } else if (textEditingController.text.endsWith('÷') ||
-        textEditingController.text.endsWith('×') && buttonText == '-') {
+    } else if (controllerLastCharacter == '÷' ||
+        controllerLastCharacter == '×' && buttonText == '-') {
       processText += buttonText;
       textEditingController.text += buttonText;
     }
+
     notifyListeners();
   }
 
@@ -128,9 +133,20 @@ class CalculatorData with ChangeNotifier {
       if (!operators.contains(controllerLastCharacter) &&
           controllerLastCharacter != ')') {
         if (bracketText == ')' || bracketText == '') {
-          expression = processText;
+          if (btnText != 'ln(') {
+            expression = processText;
+          } else if (!numbers.contains(controllerLastCharacter)) {
+            expression = processText + ')';
+          } else {
+            expression = processText;
+          }
+          btnText = '';
         } else {
-          expression = processText + ')';
+          if (btnText == 'ln(') {
+            expression = processText + '))';
+          } else {
+            expression = processText + ')';
+          }
         }
       }
     }
@@ -140,6 +156,8 @@ class CalculatorData with ChangeNotifier {
     expression = expression.replaceAll(',', '.');
     print(expression);
     print(processText);
+    print(btnText);
+    print(bracketText);
     if (controllerLastCharacter != '%') {
       expression = expression.replaceAll('%', '*10/1000*0');
     } else {
