@@ -7,6 +7,7 @@ class CalculatorData with ChangeNotifier {
   String expression = '';
   String btnText = '';
   String bracketText = '';
+  String operatorText = '';
   String processText = '';
   List<String> numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
   List<String> operators = ['×', '-', '+', '÷'];
@@ -30,10 +31,6 @@ class CalculatorData with ChangeNotifier {
   void buttonPressed({required String buttonText}) {
     if (buttonText == 'ln') {
       buttonText = 'ln(';
-      if (bracketText != '(') {
-        bracketText = '(';
-      }
-
       btnText = 'ln(';
     }
     if (controllerLastCharacter == ')') {
@@ -62,6 +59,8 @@ class CalculatorData with ChangeNotifier {
         } else {
           bracketText = '(';
         }
+      } else if (bracketText == ')') {
+        btnText = 'ln(';
       }
     }
 
@@ -109,6 +108,7 @@ class CalculatorData with ChangeNotifier {
       textEditingController.text += buttonText;
     }
 
+    operatorText = buttonText;
     notifyListeners();
   }
 
@@ -132,21 +132,25 @@ class CalculatorData with ChangeNotifier {
     if (textEditingController.text != '') {
       if (!operators.contains(controllerLastCharacter) &&
           controllerLastCharacter != ')') {
-        if (bracketText == ')' || bracketText == '') {
+        if (bracketText == ')' || bracketText == '' && btnText != 'ln(') {
           if (btnText != 'ln(') {
             expression = processText;
+            print('1.if');
           } else if (!numbers.contains(controllerLastCharacter)) {
             expression = processText + ')';
+            print('2.if');
+          } else if (btnText == 'ln(') {
+            expression = processText + ')';
+            print('3.if');
           } else {
             expression = processText;
+            print('4.if');
           }
-          btnText = '';
+          print('fdsfsdf');
+        } else if (btnText == 'ln(' && bracketText == '(') {
+          expression = processText + '))';
         } else {
-          if (btnText == 'ln(') {
-            expression = processText + '))';
-          } else {
-            expression = processText + ')';
-          }
+          expression = processText + ')';
         }
       }
     }
@@ -154,10 +158,11 @@ class CalculatorData with ChangeNotifier {
     expression = expression.replaceAll('×', '*');
     expression = expression.replaceAll('÷', '/');
     expression = expression.replaceAll(',', '.');
-    print(expression);
-    print(processText);
+
+    print(controllerLastCharacter);
     print(btnText);
     print(bracketText);
+
     if (controllerLastCharacter != '%') {
       expression = expression.replaceAll('%', '*10/1000*0');
     } else {
@@ -178,6 +183,10 @@ class CalculatorData with ChangeNotifier {
         result = result;
       }
     }
+
+    print(expression);
+    print(processText);
+
     result = result.replaceAll(RegExp(r"([.]*000000000)(?!.*\d)"), "");
     return result;
   }
