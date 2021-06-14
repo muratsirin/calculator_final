@@ -4,6 +4,7 @@ import 'package:calculator_final/view/components/bracket_button.dart';
 import 'package:calculator_final/view/components/button.dart';
 import 'package:calculator_final/view/components/equal_button.dart';
 import 'package:calculator_final/view/components/operator_button.dart';
+import 'package:calculator_final/view/components/percentage_button.dart';
 import 'package:flutter/material.dart';
 
 class Numpad extends StatelessWidget {
@@ -37,6 +38,8 @@ class Numpad extends StatelessWidget {
                   return BracketButton(buttonText: e);
                 case ')':
                   return BracketButton(buttonText: e);
+                case '%':
+                  return PercentageButton(buttonText: e);
                 case '⌫':
                   return BackSpaceButton();
                 case '=':

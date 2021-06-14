@@ -62,6 +62,8 @@ class ScientificNumpad extends StatelessWidget {
                   return BracketButton(buttonText: e);
                 case ')':
                   return BracketButton(buttonText: e);
+                case '%':
+                  return BracketButton(buttonText: e);
                 default:
                   return Button(buttonText: e);
               }

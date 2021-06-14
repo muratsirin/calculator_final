@@ -16,7 +16,7 @@ class ScientificButton extends StatelessWidget {
       child: TextButton(
         onPressed: () {
           Provider.of<CalculatorData>(context, listen: false)
-              .buttonPressed(buttonText: buttonText);
+              .scientificButtonPressed(buttonText: buttonText);
         },
         child: Text(
           buttonText,
