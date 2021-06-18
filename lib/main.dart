@@ -1,4 +1,5 @@
 import 'package:calculator_final/provider/calculator_data.dart';
+import 'package:calculator_final/provider/conversion_data.dart';
 import 'package:calculator_final/provider/utils.dart';
 import 'package:calculator_final/view/screens/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,10 @@ class Calculator extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => CalculatorData(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ConversionData(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
