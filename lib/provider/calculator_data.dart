@@ -8,12 +8,7 @@ class CalculatorData with ChangeNotifier {
   String result = '0';
   String expression = '';
   String processText = '';
-  String btnText = '';
   String numberText = '';
-  String percentageText = '1';
-  List<String> numbersToAdd = [];
-  String percentageTextBrackets = '1';
-  String textController = '';
   String operatorButton = '';
   List<String> numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
   List<String> operators = ['×', '-', '+', '÷'];
@@ -35,12 +30,6 @@ class CalculatorData with ChangeNotifier {
   }
 
   void buttonPressed({required String buttonText}) {
-    if (!operators.contains(controllerLastCharacter)) {
-      btnText += buttonText;
-    } else {
-      btnText = buttonText;
-    }
-
     xButtonText(buttonText: buttonText);
 
     if (operatorButton == '') {
@@ -157,7 +146,6 @@ class CalculatorData with ChangeNotifier {
       processText += '/100';
     }
     textEditingController.text += buttonText;
-    btnText = '%';
     notifyListeners();
   }
 
@@ -188,11 +176,6 @@ class CalculatorData with ChangeNotifier {
 
   String textResult() {
     double value;
-
-    // if (numbers.contains(controllerLastCharacter)) {
-    //   processText = processText.replaceAll('*($text)/100', '/100');
-    //   print('2.if');
-    // }
 
     expression = processText;
     expression += ")" *
@@ -225,12 +208,6 @@ class CalculatorData with ChangeNotifier {
       }
     }
 
-    print(expression);
-    print(processText);
-    print('text:' + percentageText);
-    print('textController: ' + textController);
-
-    print(pi);
     // result = result.replaceAll(RegExp(r"([.]*000000000)(?!.*\d)"), "");
     result = result.replaceAll('.', ',');
     return result;
