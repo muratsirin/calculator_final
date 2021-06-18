@@ -10,7 +10,9 @@ class CalculatorData with ChangeNotifier {
   String processText = '';
   String btnText = '';
   String numberText = '';
-  String text = '1';
+  String percentageText = '1';
+  List<String> numbersToAdd = [];
+  String percentageTextBrackets = '1';
   String textController = '';
   String operatorButton = '';
   List<String> numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -41,7 +43,9 @@ class CalculatorData with ChangeNotifier {
 
     xButtonText(buttonText: buttonText);
 
-    processText = processText.replaceAll('*($text)/100', '/100');
+    if (operatorButton == '') {
+      processText = processText.replaceAll('%', '/100');
+    }
 
     numberText = buttonText;
     textEditingController.text += buttonText;
@@ -143,29 +147,15 @@ class CalculatorData with ChangeNotifier {
   }
 
   void percentageButtonPressed({required String buttonText}) {
-    // if (operatorButton == '+' && controllerLastCharacter == '%') {
-    //   text = controllerText.substring(0, controllerText.indexOf('%'));
-    //   processText += '*($text)/100';
-    // } else {
-    //   processText += '/100';
-    // }
-
-    if (processText.contains('+')) {
-      text = processText.substring(0, processText.lastIndexOf('+'));
-      textController =
-          controllerText.substring(0, controllerText.lastIndexOf('+'));
+    if (operatorButton == '+' || operatorButton == '-') {
+      if (controllerLastCharacter == '%') {
+        processText += '/100';
+      } else {
+        processText += buttonText;
+      }
     } else {
-      text = '1';
-    }
-
-    print('text = ' + text);
-
-    if (textController.contains('%')) {
       processText += '/100';
-    } else {
-      processText += '*($text)/100';
     }
-
     textEditingController.text += buttonText;
     btnText = '%';
     notifyListeners();
@@ -203,6 +193,7 @@ class CalculatorData with ChangeNotifier {
     //   processText = processText.replaceAll('*($text)/100', '/100');
     //   print('2.if');
     // }
+
     expression = processText;
     expression += ")" *
         ("\(".allMatches(expression).length -
@@ -211,6 +202,8 @@ class CalculatorData with ChangeNotifier {
     expression = expression.replaceAll('×', '*');
     expression = expression.replaceAll('÷', '/');
     expression = expression.replaceAll(',', '.');
+    expression = expression.replaceAll('%', 'mod');
+    // expression = expression.replaceAll('%', 'prcnt');
 
     expression = expression.replaceAll('√', 'sqrt');
     expression = expression.replaceAll('!', 'fact');
@@ -234,7 +227,7 @@ class CalculatorData with ChangeNotifier {
 
     print(expression);
     print(processText);
-    print('text:' + text);
+    print('text:' + percentageText);
     print('textController: ' + textController);
 
     print(pi);
@@ -250,7 +243,7 @@ class CalculatorData with ChangeNotifier {
         controllerLastCharacter == '!' ||
         controllerLastCharacter == 'π') {
       processText += '*' + buttonText;
-      operatorButton = '×';
+      operatorButton = '';
     } else {
       processText += buttonText;
     }
