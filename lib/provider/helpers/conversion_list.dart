@@ -23,6 +23,28 @@ class ConversionList {
         unitFactor: 1851.851851851852),
   ];
 
+  dynamic conversionFactors = {
+    'Metre': 1,
+    'Kilometre': 1000,
+    'Milimetre': 0.001,
+    'Santimetre': 0.01,
+    'Mil': 1610.3059581,
+    'Yarda': 0.9144,
+    'Fit': 0.3047999902464003,
+    'İnç': 0.02539999983236,
+    'Deniz mili': 1851.851851851852,
+    'Metrekare': 1,
+    'Milimetrekare': 0.000001,
+    'Santimetrekare': 0.0001,
+    'inç kare': 0.00064516,
+    'Fit kare': 0.09290304359,
+    'Yarda kare': 0.83612739237,
+    'Hektar': 10000,
+    'Kilometrekare': 1e6,
+    'Akre': 4048.58299595,
+    'Milkare': 2589988.11
+  };
+
   List<Conversion> area = [
     Conversion(unitName: 'Metrekare', unitAbbreviation: 'm2', unitFactor: 1),
     Conversion(

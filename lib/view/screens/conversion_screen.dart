@@ -1,13 +1,14 @@
+import 'package:calculator_final/model/conversion.dart';
 import 'package:calculator_final/provider/conversion_data.dart';
 import 'package:calculator_final/view/components/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ConversionScreen extends StatelessWidget {
-  final int conversionIndex;
+  final String unitType;
   const ConversionScreen({
     Key? key,
-    required this.conversionIndex,
+    required this.unitType,
   }) : super(key: key);
 
   @override
@@ -20,8 +21,8 @@ class ConversionScreen extends StatelessWidget {
         drawer: AppDrawer(),
         body: Consumer<ConversionData>(
           builder: (context, conversionData, child) {
-            final conversion = conversionData.getConversionList(
-                conversionIndex: conversionIndex);
+            final List<Conversion> conversion =
+                conversionData.getConversionList(unitType: unitType);
             return LayoutBuilder(
               builder: (context, BoxConstraints constraints) {
                 return Column(
@@ -38,14 +39,9 @@ class ConversionScreen extends StatelessWidget {
                             SizedBox(
                               width: constraints.maxWidth * 0.5,
                               child: ListTile(
-                                title: Text(conversionData.getSelectedItem()),
+                                title: Text(conversionData.selectedItem),
                                 subtitle: Text(
-                                  conversion
-                                      .where((element) =>
-                                          element.unitName ==
-                                          conversionData.getSelectedItem())
-                                      .first
-                                      .unitAbbreviation,
+                                  'm',
                                   style: TextStyle(
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold,
@@ -61,7 +57,7 @@ class ConversionScreen extends StatelessWidget {
                                         appBar: AppBar(),
                                         body: ListView.separated(
                                           itemBuilder: (context, index) {
-                                            final conversionItem =
+                                            final Conversion conversionItem =
                                                 conversion[index];
                                             return ListTile(
                                               title:
@@ -71,7 +67,7 @@ class ConversionScreen extends StatelessWidget {
                                               trailing:
                                                   conversionItem.unitName ==
                                                           conversionData
-                                                              .getSelectedItem()
+                                                              .selectedItem
                                                       ? Icon(Icons.check)
                                                       : Text(''),
                                               onTap: () {
@@ -124,7 +120,7 @@ class ConversionScreen extends StatelessWidget {
                       height: constraints.maxHeight * 0.89,
                       child: ListView.separated(
                         itemBuilder: (context, index) {
-                          final conversionItem = conversion[index];
+                          final Conversion conversionItem = conversion[index];
                           return ListTile(
                             title: Text(conversionItem.unitName),
                             subtitle: Text(conversionItem.unitAbbreviation),

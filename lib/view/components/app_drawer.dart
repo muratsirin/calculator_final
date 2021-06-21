@@ -1,8 +1,10 @@
+import 'package:calculator_final/provider/conversion_data.dart';
 import 'package:calculator_final/provider/utils.dart';
+import 'package:calculator_final/view/screens/conversion_screen.dart';
+import 'package:calculator_final/view/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'app_listtile.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -33,10 +35,40 @@ class AppDrawer extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final listTileData =
                           Provider.of<Utils>(context).drawerMenuList[index];
-                      return AppListTile(
-                        iconData: listTileData.iconData,
-                        title: listTileData.title,
-                        conversionIndex: index,
+                      return Consumer<ConversionData>(
+                        builder: (context, conversionData, child) {
+                          return ListTile(
+                            leading: Icon(
+                              listTileData.iconData,
+                              size: 30,
+                            ),
+                            title: Text(
+                              listTileData.title,
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                            onTap: () {
+                              conversionData.updateSelectedItem(index: index);
+                              if (index == 0) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomeScreen(),
+                                  ),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ConversionScreen(
+                                        unitType: listTileData.title),
+                                  ),
+                                );
+                              }
+                            },
+                          );
+                        },
                       );
                     },
                     separatorBuilder: (context, index) {
