@@ -28,10 +28,6 @@ class Utils {
       title: 'Sıcaklık',
     ),
     DrawerMenu(
-      iconData: FontAwesomeIcons.gasPump,
-      title: 'Yakıt',
-    ),
-    DrawerMenu(
       iconData: FontAwesomeIcons.utensils,
       title: 'Pişirme',
     ),
