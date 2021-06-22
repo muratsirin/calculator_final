@@ -67,14 +67,8 @@ class ConversionData extends ConversionList with ChangeNotifier {
     }
   }
 
-  String result({
-    required double unitFactor,
-    required String unitName,
-  }) {
+  String result({required String unitName}) {
     try {
-      print('listIndex:' + listIndex.toString());
-      print('selectedItem:' + selectedItem);
-      print('unitName:' + unitName);
       double value = 1;
       switch (selectedItem) {
         case 'Kelvin':

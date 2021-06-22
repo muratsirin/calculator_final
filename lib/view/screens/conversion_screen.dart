@@ -126,7 +126,6 @@ class ConversionScreen extends StatelessWidget {
                             subtitle: Text(conversionItem.unitAbbreviation),
                             trailing: Text(
                               conversionData.result(
-                                unitFactor: conversionItem.unitFactor,
                                 unitName: conversionItem.unitName,
                               ),
                             ),
