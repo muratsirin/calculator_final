@@ -1,6 +1,8 @@
 import 'package:calculator_final/model/conversion.dart';
 import 'package:calculator_final/provider/conversion_data.dart';
 import 'package:calculator_final/view/components/app_drawer.dart';
+import 'package:calculator_final/view/components/conversion_numpad.dart';
+import 'package:calculator_final/view/components/numpad.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -41,7 +43,7 @@ class ConversionScreen extends StatelessWidget {
                               child: ListTile(
                                 title: Text(conversionData.selectedItem),
                                 subtitle: Text(
-                                  'm',
+                                  conversionData.selectedItemAbbreviation,
                                   style: TextStyle(
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold,
@@ -72,8 +74,12 @@ class ConversionScreen extends StatelessWidget {
                                                       : Text(''),
                                               onTap: () {
                                                 conversionData.setSelectedItem(
-                                                    value: conversionItem
-                                                        .unitName);
+                                                  unitName:
+                                                      conversionItem.unitName,
+                                                  unitAbbreviation:
+                                                      conversionItem
+                                                          .unitAbbreviation,
+                                                );
                                                 Navigator.pop(context);
                                               },
                                             );
@@ -90,22 +96,38 @@ class ConversionScreen extends StatelessWidget {
                               ),
                             ),
                             Expanded(
-                              child: TextField(
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                autofocus: true,
-                                showCursor: true,
-                                cursorColor: Colors.grey,
-                                readOnly: true,
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontSize: 40,
-                                  color: Colors.black,
+                              child: GestureDetector(
+                                child: Container(
+                                  child: Text(conversionData.text),
+                                  // child: TextField(
+                                  //   keyboardType: TextInputType.multiline,
+                                  //   maxLines: null,
+                                  //   autofocus: true,
+                                  //   showCursor: true,
+                                  //   cursorColor: Colors.grey,
+                                  //   readOnly: true,
+                                  //   textAlign: TextAlign.right,
+                                  //   style: TextStyle(
+                                  //     fontSize: 40,
+                                  //     color: Colors.black,
+                                  //   ),
+                                  //   decoration: InputDecoration(
+                                  //     border: InputBorder.none,
+                                  //     counterText: '',
+                                  //   ),
+                                  // ),
                                 ),
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  counterText: '',
-                                ),
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return SizedBox(
+                                        height: constraints.maxHeight * 0.7,
+                                        child: ConversionNumpad(),
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                             ),
                           ],
@@ -123,7 +145,9 @@ class ConversionScreen extends StatelessWidget {
                           final Conversion conversionItem = conversion[index];
                           return ListTile(
                             title: Text(conversionItem.unitName),
-                            subtitle: Text(conversionItem.unitAbbreviation),
+                            subtitle: Text(
+                              conversionItem.unitAbbreviation,
+                            ),
                             trailing: Text(
                               conversionData.result(
                                 unitName: conversionItem.unitName,

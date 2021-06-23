@@ -1,12 +1,15 @@
 import 'package:calculator_final/constants.dart';
 import 'package:calculator_final/provider/calculator_data.dart';
+import 'package:calculator_final/provider/conversion_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class Button extends StatelessWidget {
   final String buttonText;
+  final List<String> buttonList;
   const Button({
     required this.buttonText,
+    required this.buttonList,
     Key? key,
   }) : super(key: key);
 
@@ -14,8 +17,13 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        Provider.of<CalculatorData>(context, listen: false)
-            .buttonPressed(buttonText: buttonText);
+        if (buttonList == kButtonNames) {
+          Provider.of<CalculatorData>(context, listen: false)
+              .buttonPressed(buttonText: buttonText);
+        } else {
+          Provider.of<ConversionData>(context, listen: false)
+              .buttonPressed(buttonText: buttonText);
+        }
       },
       child: Text(
         buttonText,

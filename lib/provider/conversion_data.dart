@@ -1,41 +1,75 @@
 import 'package:calculator_final/model/conversion.dart';
+import 'package:calculator_final/provider/helpers/conversion_button_data.dart';
 import 'package:calculator_final/provider/helpers/conversion_list.dart';
-import 'package:calculator_final/view/screens/conversion_screen.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
-class ConversionData extends ConversionList with ChangeNotifier {
-  List<Conversion> selectedList = [];
+class ConversionData extends ConversionButtonData with ConversionList {
   String selectedItem = '';
+  String selectedItemAbbreviation = '';
   String resultValue = '';
-  int listIndex = 0;
 
-  void setSelectedItem({required String value}) {
-    selectedItem = value;
+  void setSelectedItem(
+      {required String unitName, required String unitAbbreviation}) {
+    selectedItem = unitName;
+    selectedItemAbbreviation = unitAbbreviation;
     notifyListeners();
   }
 
   void updateSelectedItem({required int index}) {
     switch (index) {
       case 0:
+        text = '1';
+        expression = '';
+        processText = '';
+        inputResult = '';
         selectedItem = '';
+        selectedItemAbbreviation = '';
         break;
       case 1:
+        text = '1';
+        expression = '';
+        processText = '';
+        inputResult = '';
+        selectedItemAbbreviation = length.first.unitAbbreviation;
         selectedItem = length.first.unitName;
         break;
       case 2:
+        text = '1';
+        expression = '';
+        processText = '';
+        inputResult = '';
+        selectedItemAbbreviation = area.first.unitAbbreviation;
         selectedItem = area.first.unitName;
         break;
       case 3:
+        text = '1';
+        expression = '';
+        processText = '';
+        inputResult = '';
+        selectedItemAbbreviation = weight.first.unitAbbreviation;
         selectedItem = weight.first.unitName;
         break;
       case 4:
+        text = '1';
+        expression = '';
+        processText = '';
+        inputResult = '';
+        selectedItemAbbreviation = volume.first.unitAbbreviation;
         selectedItem = volume.first.unitName;
         break;
       case 5:
+        text = '1';
+        expression = '';
+        processText = '';
+        inputResult = '';
+        selectedItemAbbreviation = temperature.first.unitAbbreviation;
         selectedItem = temperature.first.unitName;
         break;
       case 6:
+        text = '1';
+        expression = '';
+        processText = '';
+        inputResult = '';
+        selectedItemAbbreviation = cooking.first.unitAbbreviation;
         selectedItem = cooking.first.unitName;
         break;
     }
@@ -45,22 +79,16 @@ class ConversionData extends ConversionList with ChangeNotifier {
   List<Conversion> getConversionList({required String unitType}) {
     switch (unitType) {
       case 'Uzunluk':
-        selectedList = length;
         return length;
       case 'Alan':
-        selectedList = area;
         return area;
       case 'Kütle':
-        selectedList = weight;
         return weight;
       case 'Ses':
-        selectedList = volume;
         return volume;
       case 'Sıcaklık':
-        selectedList = temperature;
         return temperature;
       case 'Pişirme':
-        selectedList = cooking;
         return cooking;
       default:
         return length;
@@ -69,33 +97,42 @@ class ConversionData extends ConversionList with ChangeNotifier {
 
   String result({required String unitName}) {
     try {
-      double value = 1;
+      double inputValue;
+
+      if (getInputResult() != '') {
+        if (inputResult != '0') {
+          inputValue = double.parse(getInputResult());
+        } else {
+          inputValue = 0;
+        }
+      } else {
+        inputValue = 1;
+      }
+
+      print(inputResult);
+
       switch (selectedItem) {
         case 'Kelvin':
           if (unitName == 'Santigrat') {
-            value = value * (-272.15);
+            inputValue = inputValue * (-272.15);
           } else if (unitName == 'Fahrenhayt') {
-            value = value * (-457.87);
+            inputValue = inputValue * (-457.87);
           }
           break;
         case 'Fahrenhayt':
           if (unitName == 'Santigrat') {
-            value = value * (-17.2222222);
+            inputValue = inputValue * (-17.2222222);
           } else if (unitName == 'Kelvin') {
-            value = value * (255.927778);
+            inputValue = inputValue * (255.927778);
           }
           break;
         default:
-          value = value *
+          inputValue = inputValue *
               conversionFactors[selectedItem] *
               (1 / conversionFactors[unitName]);
           break;
       }
-
-      if (value < 1e-8)
-        return value.toStringAsExponential(6);
-      else
-        resultValue = value.toStringAsFixed(6);
+      resultValue = inputValue.toStringAsFixed(6);
       resultValue = resultValue.replaceAll(RegExp(r"([.]*000000)(?!.*\d)"), "");
     } catch (e) {}
     return resultValue;

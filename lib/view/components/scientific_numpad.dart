@@ -27,17 +27,21 @@ class ScientificNumpad extends StatelessWidget {
             children: kScientificButtonNames.map<Widget>((e) {
               switch (e) {
                 case '÷':
-                  return OperatorButton(buttonText: e);
+                  return OperatorButton(
+                      buttonText: e, buttonList: kButtonNames);
                 case '×':
-                  return OperatorButton(buttonText: e);
+                  return OperatorButton(
+                      buttonText: e, buttonList: kButtonNames);
                 case '-':
-                  return OperatorButton(buttonText: e);
+                  return OperatorButton(
+                      buttonText: e, buttonList: kButtonNames);
                 case '+':
-                  return OperatorButton(buttonText: e);
+                  return OperatorButton(
+                      buttonText: e, buttonList: kButtonNames);
                 case '⌫':
-                  return BackSpaceButton();
+                  return BackSpaceButton(buttonList: kButtonNames);
                 case '=':
-                  return EqualButton();
+                  return EqualButton(buttonText: e, buttonList: kButtonNames);
                 case 'ln':
                   return ScientificButton(buttonText: e);
                 case 'log':
@@ -59,13 +63,16 @@ class ScientificNumpad extends StatelessWidget {
                 case '!':
                   return ScientificButton(buttonText: e);
                 case '(':
-                  return BracketButton(buttonText: e);
+                  return BracketButton(buttonText: e, buttonList: kButtonNames);
                 case ')':
-                  return BracketButton(buttonText: e);
+                  return BracketButton(buttonText: e, buttonList: kButtonNames);
                 case '%':
-                  return BracketButton(buttonText: e);
+                  return BracketButton(buttonText: e, buttonList: kButtonNames);
                 default:
-                  return Button(buttonText: e);
+                  return Button(
+                    buttonText: e,
+                    buttonList: kButtonNames,
+                  );
               }
             }).toList(),
           );

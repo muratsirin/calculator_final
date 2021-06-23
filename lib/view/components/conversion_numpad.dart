@@ -4,11 +4,10 @@ import 'package:calculator_final/view/components/bracket_button.dart';
 import 'package:calculator_final/view/components/button.dart';
 import 'package:calculator_final/view/components/equal_button.dart';
 import 'package:calculator_final/view/components/operator_button.dart';
-import 'package:calculator_final/view/components/percentage_button.dart';
 import 'package:flutter/material.dart';
 
-class Numpad extends StatelessWidget {
-  const Numpad({
+class ConversionNumpad extends StatelessWidget {
+  const ConversionNumpad({
     Key? key,
   }) : super(key: key);
 
@@ -24,34 +23,37 @@ class Numpad extends StatelessWidget {
                 constraints.maxWidth / constraints.maxHeight / 0.8,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            children: kButtonNames.map<Widget>((e) {
+            children: kConversionButtonNames.map<Widget>((e) {
               switch (e) {
                 case '÷':
                   return OperatorButton(
-                      buttonText: e, buttonList: kButtonNames);
+                      buttonText: e, buttonList: kConversionButtonNames);
                 case '×':
                   return OperatorButton(
-                      buttonText: e, buttonList: kButtonNames);
+                      buttonText: e, buttonList: kConversionButtonNames);
                 case '-':
                   return OperatorButton(
-                      buttonText: e, buttonList: kButtonNames);
+                      buttonText: e, buttonList: kConversionButtonNames);
                 case '+':
                   return OperatorButton(
-                      buttonText: e, buttonList: kButtonNames);
+                      buttonText: e, buttonList: kConversionButtonNames);
                 case '(':
-                  return BracketButton(buttonText: e, buttonList: kButtonNames);
+                  return BracketButton(
+                      buttonText: e, buttonList: kConversionButtonNames);
                 case ')':
-                  return BracketButton(buttonText: e, buttonList: kButtonNames);
-                case '%':
-                  return PercentageButton(buttonText: e);
+                  return BracketButton(
+                      buttonText: e, buttonList: kConversionButtonNames);
                 case '⌫':
-                  return BackSpaceButton(buttonList: kButtonNames);
-                case '=':
-                  return EqualButton(buttonText: e, buttonList: kButtonNames);
+                  return BackSpaceButton(
+                    buttonList: kConversionButtonNames,
+                  );
+                case 'OK':
+                  return EqualButton(
+                      buttonText: e, buttonList: kConversionButtonNames);
                 default:
                   return Button(
                     buttonText: e,
-                    buttonList: kButtonNames,
+                    buttonList: kConversionButtonNames,
                   );
               }
             }).toList(),

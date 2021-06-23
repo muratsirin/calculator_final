@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class EqualButton extends StatelessWidget {
+  final String buttonText;
+  final List<String> buttonList;
   const EqualButton({
+    required this.buttonText,
+    required this.buttonList,
     Key? key,
   }) : super(key: key);
 
@@ -12,7 +16,7 @@ class EqualButton extends StatelessWidget {
       child: TextButton(
         onPressed: () {},
         child: Text(
-          '=',
+          buttonText,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontWeight: FontWeight.normal,

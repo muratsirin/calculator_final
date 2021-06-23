@@ -1,4 +1,4 @@
-const List kButtonNames = [
+const List<String> kButtonNames = [
   '(',
   ')',
   '%',
@@ -21,7 +21,30 @@ const List kButtonNames = [
   '='
 ];
 
-const List kScientificButtonNames = [
+const List<String> kConversionButtonNames = [
+  'C',
+  '(',
+  ')',
+  '⌫',
+  '7',
+  '8',
+  '9',
+  '÷',
+  '4',
+  '5',
+  '6',
+  '×',
+  '1',
+  '2',
+  '3',
+  '-',
+  '0',
+  ',',
+  'OK',
+  '+',
+];
+
+const List<String> kScientificButtonNames = [
   'ln',
   'log',
   'sin',

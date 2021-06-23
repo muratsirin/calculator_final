@@ -1,9 +1,13 @@
+import 'package:calculator_final/constants.dart';
 import 'package:calculator_final/provider/calculator_data.dart';
+import 'package:calculator_final/provider/conversion_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BackSpaceButton extends StatelessWidget {
+  final List<String> buttonList;
   const BackSpaceButton({
+    required this.buttonList,
     Key? key,
   }) : super(key: key);
 
@@ -11,7 +15,12 @@ class BackSpaceButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        Provider.of<CalculatorData>(context, listen: false).backSpacePressed();
+        if (buttonList == kButtonNames) {
+          Provider.of<CalculatorData>(context, listen: false)
+              .backSpacePressed();
+        } else {
+          Provider.of<ConversionData>(context, listen: false).deleteCharacter();
+        }
       },
       onLongPress: () {
         Provider.of<CalculatorData>(context, listen: false).clearPressed();
