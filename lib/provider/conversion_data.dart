@@ -18,57 +18,44 @@ class ConversionData extends ConversionButtonData with ConversionList {
     switch (index) {
       case 0:
         text = '1';
-        expression = '';
-        processText = '';
-        inputResult = '';
+        processText = '1';
         selectedItem = '';
         selectedItemAbbreviation = '';
         break;
       case 1:
         text = '1';
-        expression = '';
-        processText = '';
-        inputResult = '';
+        processText = '1';
         selectedItemAbbreviation = length.first.unitAbbreviation;
         selectedItem = length.first.unitName;
         break;
       case 2:
         text = '1';
-        expression = '';
-        processText = '';
-        inputResult = '';
+        processText = '1';
         selectedItemAbbreviation = area.first.unitAbbreviation;
         selectedItem = area.first.unitName;
         break;
       case 3:
         text = '1';
-        expression = '';
-        processText = '';
-        inputResult = '';
+        processText = '1';
         selectedItemAbbreviation = weight.first.unitAbbreviation;
         selectedItem = weight.first.unitName;
         break;
       case 4:
         text = '1';
-        expression = '';
-        processText = '';
-        inputResult = '';
+        processText = '1';
         selectedItemAbbreviation = volume.first.unitAbbreviation;
         selectedItem = volume.first.unitName;
         break;
       case 5:
         text = '1';
-        expression = '';
-        processText = '';
-        inputResult = '';
+        processText = '1';
         selectedItemAbbreviation = temperature.first.unitAbbreviation;
         selectedItem = temperature.first.unitName;
         break;
       case 6:
         text = '1';
-        expression = '';
-        processText = '';
-        inputResult = '';
+        ;
+        processText = '1';
         selectedItemAbbreviation = cooking.first.unitAbbreviation;
         selectedItem = cooking.first.unitName;
         break;
@@ -97,19 +84,7 @@ class ConversionData extends ConversionButtonData with ConversionList {
 
   String result({required String unitName}) {
     try {
-      double inputValue;
-
-      if (getInputResult() != '') {
-        if (inputResult != '0') {
-          inputValue = double.parse(getInputResult());
-        } else {
-          inputValue = 0;
-        }
-      } else {
-        inputValue = 1;
-      }
-
-      print(inputResult);
+      double inputValue = double.parse(getInputResult());
 
       switch (selectedItem) {
         case 'Kelvin':

@@ -76,19 +76,18 @@ class ConversionButtonData with ChangeNotifier {
   }
 
   void deleteCharacter() {
-    if (text != '0' && processText != '' && expression != '') {
-      text = text.substring(0, text.length - 1);
-      processText = processText.substring(0, processText.length - 1);
+    if (text != '0' && processText != '0' && expression != '0') {
+      if (text.length == 1) {
+        text = '0';
+        inputResult = '0';
+        processText = '0';
+        expValue = 0;
+      } else {
+        text = text.substring(0, text.length - 1);
+        processText = processText.substring(0, processText.length - 1);
+      }
     }
 
-    if (text == '1' || text == '2') {
-      text = '0';
-      inputResult = '0';
-      processText = '0';
-      expValue = 0;
-    }
-
-    print(text);
     notifyListeners();
   }
 
@@ -116,9 +115,15 @@ class ConversionButtonData with ChangeNotifier {
       ContextModel contextModel = ContextModel();
 
       expValue = exp.evaluate(EvaluationType.REAL, contextModel);
-      inputResult = expValue.toStringAsFixed(9);
+      inputResult = expValue.toStringAsFixed(6);
+      inputResult = inputResult.replaceAll(RegExp(r"([.]*000000)(?!.*\d)"), "");
     } catch (e) {}
 
     return inputResult;
+  }
+
+  void thenNumpad() {
+    text = inputResult;
+    notifyListeners();
   }
 }

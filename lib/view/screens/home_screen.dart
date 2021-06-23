@@ -1,4 +1,5 @@
 import 'package:calculator_final/view/components/app_drawer.dart';
+import 'package:calculator_final/view/components/app_end_drawer.dart';
 import 'package:calculator_final/view/components/numpad.dart';
 import 'package:calculator_final/view/components/process.dart';
 import 'package:calculator_final/view/components/scientific_keyboard.dart';
@@ -11,7 +12,7 @@ class HomeScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         drawer: AppDrawer(),
-        endDrawer: Drawer(),
+        endDrawer: AppEndDrawer(),
         appBar: AppBar(
           actions: [
             Builder(

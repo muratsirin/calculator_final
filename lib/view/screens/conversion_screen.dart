@@ -98,24 +98,10 @@ class ConversionScreen extends StatelessWidget {
                             Expanded(
                               child: GestureDetector(
                                 child: Container(
-                                  child: Text(conversionData.text),
-                                  // child: TextField(
-                                  //   keyboardType: TextInputType.multiline,
-                                  //   maxLines: null,
-                                  //   autofocus: true,
-                                  //   showCursor: true,
-                                  //   cursorColor: Colors.grey,
-                                  //   readOnly: true,
-                                  //   textAlign: TextAlign.right,
-                                  //   style: TextStyle(
-                                  //     fontSize: 40,
-                                  //     color: Colors.black,
-                                  //   ),
-                                  //   decoration: InputDecoration(
-                                  //     border: InputBorder.none,
-                                  //     counterText: '',
-                                  //   ),
-                                  // ),
+                                  child: Text(
+                                    conversionData.text,
+                                    textAlign: TextAlign.right,
+                                  ),
                                 ),
                                 onTap: () {
                                   showModalBottomSheet(
@@ -126,7 +112,8 @@ class ConversionScreen extends StatelessWidget {
                                         child: ConversionNumpad(),
                                       );
                                     },
-                                  );
+                                  ).then(
+                                      (value) => conversionData.thenNumpad());
                                 },
                               ),
                             ),

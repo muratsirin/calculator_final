@@ -32,50 +32,50 @@ class AppDrawer extends StatelessWidget {
               SizedBox(
                 height: constraints.maxHeight * 0.7,
                 child: ListView.separated(
-                    itemBuilder: (context, index) {
-                      final listTileData =
-                          Provider.of<Utils>(context).drawerMenuList[index];
-                      return Consumer<ConversionData>(
-                        builder: (context, conversionData, child) {
-                          return ListTile(
-                            leading: Icon(
-                              listTileData.iconData,
-                              size: 30,
+                  itemBuilder: (context, index) {
+                    final listTileData =
+                        Provider.of<Utils>(context).drawerMenuList[index];
+                    return Consumer<ConversionData>(
+                      builder: (context, conversionData, child) {
+                        return ListTile(
+                          leading: Icon(
+                            listTileData.iconData,
+                            size: 30,
+                          ),
+                          title: Text(
+                            listTileData.title,
+                            style: TextStyle(
+                              fontSize: 18,
                             ),
-                            title: Text(
-                              listTileData.title,
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                            onTap: () {
-                              conversionData.updateSelectedItem(index: index);
-                              if (index == 0) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeScreen(),
-                                  ),
-                                );
-                              } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ConversionScreen(
-                                        unitType: listTileData.title),
-                                  ),
-                                );
-                              }
-                            },
-                          );
-                        },
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return Divider();
-                    },
-                    itemCount:
-                        Provider.of<Utils>(context).drawerMenuList.length),
+                          ),
+                          onTap: () {
+                            conversionData.updateSelectedItem(index: index);
+                            if (index == 0) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomeScreen(),
+                                ),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ConversionScreen(
+                                      unitType: listTileData.title),
+                                ),
+                              );
+                            }
+                          },
+                        );
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider();
+                  },
+                  itemCount: Provider.of<Utils>(context).drawerMenuList.length,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 12.0),
