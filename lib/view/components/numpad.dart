@@ -15,7 +15,7 @@ class Numpad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xfff0f0f0),
+      color: Color(0xffffffff),
       child: LayoutBuilder(
         builder: (context, BoxConstraints constraints) {
           return GridView.count(

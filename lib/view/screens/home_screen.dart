@@ -14,6 +14,15 @@ class HomeScreen extends StatelessWidget {
         drawer: AppDrawer(),
         endDrawer: AppEndDrawer(),
         appBar: AppBar(
+          title: Text(
+            'Hesap Makinesi',
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          backgroundColor: Color(0xffffffff),
+          iconTheme: IconThemeData(color: Colors.black),
+          elevation: 0,
           actions: [
             Builder(
               builder: (context) {
@@ -33,33 +42,34 @@ class HomeScreen extends StatelessWidget {
               children: [
                 SizedBox(
                   width: constraints.maxWidth,
-                  height: constraints.maxHeight * 0.4,
+                  height: constraints.maxHeight * 0.2,
                   child: Process(),
                 ),
+                Divider(
+                  height: constraints.maxHeight * 0.001,
+                  thickness: 2,
+                  color: Colors.grey,
+                ),
                 SizedBox(
-                  height: constraints.maxHeight * 0.6,
-                  child: LayoutBuilder(
-                    builder: (buildContext, BoxConstraints boxConstraints) {
-                      return Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            top: 0,
-                            bottom: 0,
-                            child: SizedBox(
-                              width: boxConstraints.maxWidth * 0.9,
-                              child: Numpad(),
-                            ),
-                          ),
-                          Positioned(
-                            top: 0,
-                            right: 0,
-                            bottom: 0,
-                            child: ScientificKeyboard(),
-                          ),
-                        ],
-                      );
-                    },
+                  height: constraints.maxHeight * 0.799,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        child: SizedBox(
+                          width: constraints.maxWidth * 0.9,
+                          child: Numpad(),
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: ScientificKeyboard(),
+                      ),
+                    ],
                   ),
                 ),
               ],

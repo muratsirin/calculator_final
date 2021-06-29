@@ -36,7 +36,7 @@ class BracketButton extends StatelessWidget {
       ),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(
-          Color(0xfff0f0f0),
+          Color(0xffffffff),
         ),
         shape: MaterialStateProperty.all<OutlinedBorder>(
           CircleBorder(),

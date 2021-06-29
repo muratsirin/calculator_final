@@ -11,29 +11,26 @@ class ScientificButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xfffab32f),
-      child: TextButton(
-        onPressed: () {
-          Provider.of<CalculatorData>(context, listen: false)
-              .scientificButtonPressed(buttonText: buttonText);
-        },
-        child: Text(
-          buttonText,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.normal,
-            fontSize: 20.0,
-            color: Colors.white,
-          ),
+    return TextButton(
+      onPressed: () {
+        Provider.of<CalculatorData>(context, listen: false)
+            .scientificButtonPressed(buttonText: buttonText);
+      },
+      child: Text(
+        buttonText,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontWeight: FontWeight.normal,
+          fontSize: 20.0,
+          color: Color(0xffFD9B0F),
         ),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
-            Color(0xfffab32f),
-          ),
-          shape: MaterialStateProperty.all<OutlinedBorder>(
-            BeveledRectangleBorder(),
-          ),
+      ),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(
+          Color(0xffffffff),
+        ),
+        shape: MaterialStateProperty.all<OutlinedBorder>(
+          RoundedRectangleBorder(),
         ),
       ),
     );

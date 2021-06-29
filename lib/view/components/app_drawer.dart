@@ -40,6 +40,7 @@ class AppDrawer extends StatelessWidget {
                         return ListTile(
                           leading: Icon(
                             listTileData.iconData,
+                            color: Color(0xffe30997),
                             size: 30,
                           ),
                           title: Text(

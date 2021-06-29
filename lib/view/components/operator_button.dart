@@ -13,34 +13,31 @@ class OperatorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: TextButton(
-        onPressed: () {
-          if (buttonList == kButtonNames) {
-            Provider.of<CalculatorData>(context, listen: false)
-                .operatorButtonPressed(buttonText: buttonText);
-          } else {
-            Provider.of<ConversionData>(context, listen: false)
-                .operatorButtonPressed(buttonText: buttonText);
-          }
-        },
-        child: Text(
-          buttonText,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.normal,
-            fontSize: 24.0,
-            color: Colors.white,
-          ),
+    return TextButton(
+      onPressed: () {
+        if (buttonList == kButtonNames) {
+          Provider.of<CalculatorData>(context, listen: false)
+              .operatorButtonPressed(buttonText: buttonText);
+        } else {
+          Provider.of<ConversionData>(context, listen: false)
+              .operatorButtonPressed(buttonText: buttonText);
+        }
+      },
+      child: Text(
+        buttonText,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontWeight: FontWeight.normal,
+          fontSize: 24.0,
+          color: Color(0xffe30997),
         ),
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
-            Color(0xff004f94),
-          ),
-          shape: MaterialStateProperty.all<OutlinedBorder>(
-            CircleBorder(),
-          ),
+      ),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(
+          Color(0xffF8F8F8),
+        ),
+        shape: MaterialStateProperty.all<OutlinedBorder>(
+          RoundedRectangleBorder(),
         ),
       ),
     );

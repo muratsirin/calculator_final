@@ -113,13 +113,13 @@ class _ScientificKeyboardState extends State<ScientificKeyboard>
                             onPanEnd: _onDragEnd,
                             child: Container(
                               alignment: Alignment.center,
-                              color: Color(0xfff0f0f0),
+                              color: Color(0xffe30997),
                               width: constraints.maxWidth * 0.1,
                               child: Icon(
                                 isOpen
                                     ? Icons.keyboard_arrow_right
                                     : Icons.keyboard_arrow_left,
-                                color: Color(0xff004f94),
+                                color: Color(0xffffffff),
                               ),
                             ),
                           ),

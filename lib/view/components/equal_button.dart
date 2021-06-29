@@ -30,15 +30,19 @@ class EqualButton extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.normal,
                 fontSize: 24.0,
-                color: Colors.white,
+                color: Color(0xff5FB700),
               ),
             ),
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(
-                Colors.green,
+                Color(0xffffffff),
               ),
               shape: MaterialStateProperty.all<OutlinedBorder>(
-                CircleBorder(),
+                CircleBorder(
+                  side: BorderSide(
+                    color: Color(0xff5FB700),
+                  ),
+                ),
               ),
             ),
           );
