@@ -1,10 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class CalculatorData with ChangeNotifier {
-  TextEditingController textEditingController = TextEditingController();
+  String displayText = '';
   String result = '0';
   String expression = '';
   String processText = '';
@@ -13,12 +12,18 @@ class CalculatorData with ChangeNotifier {
   List<String> numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
   List<String> operators = ['×', '-', '+', '÷'];
 
-  String get controllerText {
-    return textEditingController.text;
+  void historyPressed({required String historyProcessText}) {
+    displayText = historyProcessText;
+    processText = historyProcessText;
+    notifyListeners();
   }
 
-  String get controllerLastCharacter {
-    if (textEditingController.text != '') {
+  String get controllerText {
+    return displayText;
+  }
+
+  String get displayTextLastCharacter {
+    if (displayText != '') {
       return controllerText.characters.last;
     } else {
       return '';
@@ -37,15 +42,15 @@ class CalculatorData with ChangeNotifier {
     }
 
     numberText = buttonText;
-    textEditingController.text += buttonText;
+    displayText += buttonText;
     notifyListeners();
   }
 
   void bracketPressed({required String buttonText}) {
     if (controllerText != '') {
       if (buttonText == '(') {
-        if (!operators.contains(controllerLastCharacter) &&
-            controllerLastCharacter != '(') {
+        if (!operators.contains(displayTextLastCharacter) &&
+            displayTextLastCharacter != '(') {
           processText += '*' + buttonText;
         } else {
           processText += buttonText;
@@ -57,26 +62,26 @@ class CalculatorData with ChangeNotifier {
       processText += buttonText;
     }
 
-    textEditingController.text += buttonText;
+    displayText += buttonText;
 
     notifyListeners();
   }
 
   void operatorButtonPressed({required String buttonText}) {
-    if (!operators.contains(controllerLastCharacter)) {
+    if (!operators.contains(displayTextLastCharacter)) {
       processText += buttonText;
-      textEditingController.text += buttonText;
-    } else if (controllerLastCharacter != '+' && buttonText == '+') {
+      displayText += buttonText;
+    } else if (displayTextLastCharacter != '+' && buttonText == '+') {
       replaceOperatorButton(buttonText: buttonText);
-    } else if (controllerLastCharacter == '+' && buttonText == '-') {
+    } else if (displayTextLastCharacter == '+' && buttonText == '-') {
       replaceOperatorButton(buttonText: buttonText);
-    } else if (buttonText == '-' && controllerLastCharacter == '×' ||
-        controllerLastCharacter == '÷' && buttonText == '-') {
+    } else if (buttonText == '-' && displayTextLastCharacter == '×' ||
+        displayTextLastCharacter == '÷' && buttonText == '-') {
       processText += buttonText;
-      textEditingController.text += buttonText;
-    } else if (controllerLastCharacter != '÷' && buttonText == '÷') {
+      displayText += buttonText;
+    } else if (displayTextLastCharacter != '÷' && buttonText == '÷') {
       replaceOperatorButton(buttonText: buttonText);
-    } else if (buttonText == '×' && controllerLastCharacter != '×') {
+    } else if (buttonText == '×' && displayTextLastCharacter != '×') {
       replaceOperatorButton(buttonText: buttonText);
     }
     operatorButton = buttonText;
@@ -106,7 +111,7 @@ class CalculatorData with ChangeNotifier {
         xButtonText(buttonText: buttonText);
         break;
       case '√':
-        if (numberText != '' && !operators.contains(controllerLastCharacter)) {
+        if (numberText != '' && !operators.contains(displayTextLastCharacter)) {
           processText += '×√';
           numberText = '';
         } else {
@@ -114,7 +119,7 @@ class CalculatorData with ChangeNotifier {
         }
         break;
       case 'e':
-        if (numberText != '' && !operators.contains(controllerLastCharacter)) {
+        if (numberText != '' && !operators.contains(displayTextLastCharacter)) {
           processText += '×e';
           numberText = '';
         } else {
@@ -122,7 +127,7 @@ class CalculatorData with ChangeNotifier {
         }
         break;
       case 'π':
-        if (numberText != '' && !operators.contains(controllerLastCharacter)) {
+        if (numberText != '' && !operators.contains(displayTextLastCharacter)) {
           processText += '×π';
           numberText = '';
         } else {
@@ -131,13 +136,13 @@ class CalculatorData with ChangeNotifier {
         break;
     }
 
-    textEditingController.text += buttonText;
+    displayText += buttonText;
     notifyListeners();
   }
 
   void percentageButtonPressed({required String buttonText}) {
     if (operatorButton == '+' || operatorButton == '-') {
-      if (controllerLastCharacter == '%') {
+      if (displayTextLastCharacter == '%') {
         processText += '/100';
       } else {
         processText += buttonText;
@@ -145,14 +150,13 @@ class CalculatorData with ChangeNotifier {
     } else {
       processText += '/100';
     }
-    textEditingController.text += buttonText;
+    displayText += buttonText;
     notifyListeners();
   }
 
   void deleteCharacter() {
     if (controllerText != '' && processText != '' && expression != '') {
-      textEditingController.text = textEditingController.text
-          .substring(0, textEditingController.text.length - 1);
+      displayText = displayText.substring(0, displayText.length - 1);
       processText = processText.substring(0, processText.length - 1);
       // expression = expression.substring(0, expression.length - 1);
     }
@@ -161,14 +165,14 @@ class CalculatorData with ChangeNotifier {
 
   void backSpacePressed() {
     deleteCharacter();
-    if (textEditingController.text == '') {
+    if (displayText == '') {
       result = '0';
     }
     notifyListeners();
   }
 
   void clearPressed() {
-    textEditingController.text = '';
+    displayText = '';
     processText = '';
     result = '0';
     notifyListeners();
@@ -199,26 +203,31 @@ class CalculatorData with ChangeNotifier {
       ContextModel contextModel = ContextModel();
 
       value = exp.evaluate(EvaluationType.REAL, contextModel);
-      result = value.toStringAsFixed(9);
+      result = value.toString();
     } catch (e) {
-      if (textEditingController.text != '') {
+      if (displayText != '' && !result.isNotEmpty) {
         result = 'Hatalı ifade';
       } else {
         result = result;
       }
     }
 
-    // result = result.replaceAll(RegExp(r"([.]*000000000)(?!.*\d)"), "");
     result = result.replaceAll('.', ',');
+    if (result == '0') {
+      result = '0';
+    } else {
+      result = result.replaceAll(RegExp(r"([,]*0)(?!.*\d)"), "");
+    }
+
     return result;
   }
 
   void xButtonText({required buttonText}) {
-    if (controllerLastCharacter == ')' ||
-        controllerLastCharacter == '%' ||
-        controllerLastCharacter == 'e' ||
-        controllerLastCharacter == '!' ||
-        controllerLastCharacter == 'π') {
+    if (displayTextLastCharacter == ')' ||
+        displayTextLastCharacter == '%' ||
+        displayTextLastCharacter == 'e' ||
+        displayTextLastCharacter == '!' ||
+        displayTextLastCharacter == 'π') {
       processText += '*' + buttonText;
       operatorButton = '';
     } else {
@@ -229,9 +238,7 @@ class CalculatorData with ChangeNotifier {
   void replaceOperatorButton({required buttonText}) {
     processText = processText.replaceFirst(processText.characters.last,
         buttonText, processText.lastIndexOf(processLastCharacter));
-    textEditingController.text = textEditingController.text.replaceFirst(
-        controllerLastCharacter,
-        buttonText,
-        textEditingController.text.lastIndexOf(controllerLastCharacter));
+    displayText = displayText.replaceFirst(displayTextLastCharacter, buttonText,
+        displayText.lastIndexOf(displayTextLastCharacter));
   }
 }

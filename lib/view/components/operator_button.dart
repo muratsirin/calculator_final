@@ -3,6 +3,7 @@ import 'package:calculator_final/provider/calculator_data.dart';
 import 'package:calculator_final/provider/conversion_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 class OperatorButton extends StatelessWidget {
   final String buttonText;
@@ -29,12 +30,14 @@ class OperatorButton extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.normal,
           fontSize: 24.0,
-          color: Color(0xffe30997),
+          color: kOperatorTextColor,
         ),
       ),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(
-          Color(0xffF8F8F8),
+          ThemeProvider.themeOf(context).id == 'dark_theme'
+              ? kOperatorColorDark
+              : kOperatorColorLight,
         ),
         shape: MaterialStateProperty.all<OutlinedBorder>(
           RoundedRectangleBorder(),

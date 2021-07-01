@@ -1,3 +1,4 @@
+import 'package:calculator_final/constants.dart';
 import 'package:calculator_final/view/components/app_drawer.dart';
 import 'package:calculator_final/view/components/app_end_drawer.dart';
 import 'package:calculator_final/view/components/numpad.dart';
@@ -16,12 +17,7 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             'Hesap Makinesi',
-            style: TextStyle(
-              color: Colors.black,
-            ),
           ),
-          backgroundColor: Color(0xffffffff),
-          iconTheme: IconThemeData(color: Colors.black),
           elevation: 0,
           actions: [
             Builder(
@@ -48,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                 Divider(
                   height: constraints.maxHeight * 0.001,
                   thickness: 2,
-                  color: Colors.grey,
+                  color: kPrimaryTextColorLight,
                 ),
                 SizedBox(
                   height: constraints.maxHeight * 0.799,

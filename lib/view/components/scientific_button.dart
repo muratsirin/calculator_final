@@ -1,3 +1,4 @@
+import 'package:calculator_final/constants.dart';
 import 'package:calculator_final/provider/calculator_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,13 +23,10 @@ class ScientificButton extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.normal,
           fontSize: 20.0,
-          color: Color(0xffFD9B0F),
+          color: kScientificButtonTextColor,
         ),
       ),
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(
-          Color(0xffffffff),
-        ),
         shape: MaterialStateProperty.all<OutlinedBorder>(
           RoundedRectangleBorder(),
         ),

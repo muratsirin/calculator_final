@@ -1,7 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:calculator_final/model/conversion.dart';
 import 'package:calculator_final/provider/conversion_data.dart';
 import 'package:calculator_final/view/components/app_drawer.dart';
 import 'package:calculator_final/view/components/conversion_numpad.dart';
+import 'package:calculator_final/view/components/show_bottom_unit_list.dart';
+import 'package:calculator_final/view/components/unit_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,11 +22,8 @@ class ConversionScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             unitType,
-            style: TextStyle(color: Colors.black),
           ),
-          backgroundColor: Color(0xffffffff),
           elevation: 0,
-          iconTheme: IconThemeData(color: Colors.black),
         ),
         drawer: AppDrawer(),
         body: Consumer<ConversionData>(
@@ -32,170 +32,90 @@ class ConversionScreen extends StatelessWidget {
                 conversionData.getConversionList(unitType: unitType);
             return LayoutBuilder(
               builder: (context, BoxConstraints constraints) {
-                return Container(
-                  color: Color(0xffffffff),
-                  child: Column(
-                    verticalDirection: VerticalDirection.down,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 0),
-                        child: Container(
-                          width: constraints.maxWidth,
-                          height: constraints.maxHeight * 0.1,
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: constraints.maxWidth * 0.5,
-                                child: ListTile(
-                                  title: Text(
-                                    conversionData.selectedItem,
+                return Column(
+                  verticalDirection: VerticalDirection.down,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 0),
+                      child: SizedBox(
+                        width: constraints.maxWidth,
+                        height: constraints.maxHeight * 0.1,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: constraints.maxWidth * 0.5,
+                              child: ListTile(
+                                title: Text(
+                                  conversionData.selectedItem,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  conversionData.selectedItemAbbreviation,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                trailing: Icon(Icons.unfold_more),
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (context) {
+                                      return ShowBottomUnitList(
+                                        conversion: conversion,
+                                        conversionData: conversionData,
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                            Expanded(
+                              child: GestureDetector(
+                                child: Container(
+                                  child: AutoSizeText(
+                                    conversionData.text,
+                                    maxLines: 1,
                                     style: TextStyle(
                                       fontSize: 20,
                                     ),
+                                    textAlign: TextAlign.right,
                                   ),
-                                  subtitle: Text(
-                                    conversionData.selectedItemAbbreviation,
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  trailing: Icon(Icons.unfold_more),
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      builder: (context) {
-                                        return Scaffold(
-                                          appBar: AppBar(
-                                            backgroundColor: Color(0xffffffff),
-                                            iconTheme: IconThemeData(
-                                                color: Colors.black),
-                                            elevation: 0,
-                                          ),
-                                          body: Container(
-                                            color: Color(0xffffffff),
-                                            child: ListView.separated(
-                                              itemBuilder: (context, index) {
-                                                final Conversion
-                                                    conversionItem =
-                                                    conversion[index];
-                                                return ListTile(
-                                                  title: Text(
-                                                    conversionItem.unitName,
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                    ),
-                                                  ),
-                                                  subtitle: Text(
-                                                    conversionItem
-                                                        .unitAbbreviation,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20,
-                                                    ),
-                                                  ),
-                                                  trailing:
-                                                      conversionItem.unitName ==
-                                                              conversionData
-                                                                  .selectedItem
-                                                          ? Icon(Icons.check)
-                                                          : Text(''),
-                                                  onTap: () {
-                                                    conversionData
-                                                        .setSelectedItem(
-                                                      unitName: conversionItem
-                                                          .unitName,
-                                                      unitAbbreviation:
-                                                          conversionItem
-                                                              .unitAbbreviation,
-                                                    );
-                                                    Navigator.pop(context);
-                                                  },
-                                                );
-                                              },
-                                              separatorBuilder:
-                                                  (context, index) {
-                                                return Divider();
-                                              },
-                                              itemCount: conversion.length,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
                                 ),
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return SizedBox(
+                                        height: constraints.maxHeight * 0.7,
+                                        child: ConversionNumpad(),
+                                      );
+                                    },
+                                  ).then(
+                                      (value) => conversionData.thenNumpad());
+                                },
                               ),
-                              Expanded(
-                                child: GestureDetector(
-                                  child: Container(
-                                    child: Text(
-                                      conversionData.text,
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.grey[700]),
-                                      textAlign: TextAlign.right,
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) {
-                                        return SizedBox(
-                                          height: constraints.maxHeight * 0.7,
-                                          child: ConversionNumpad(),
-                                        );
-                                      },
-                                    ).then(
-                                        (value) => conversionData.thenNumpad());
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(
-                        height: constraints.maxHeight * 0.01,
-                        child: Divider(),
+                    ),
+                    SizedBox(
+                      height: constraints.maxHeight * 0.01,
+                      child: Divider(),
+                    ),
+                    SizedBox(
+                      height: constraints.maxHeight * 0.89,
+                      child: UnitList(
+                        conversion: conversion,
+                        conversionData: conversionData,
                       ),
-                      SizedBox(
-                        height: constraints.maxHeight * 0.89,
-                        child: ListView.separated(
-                          itemBuilder: (context, index) {
-                            final Conversion conversionItem = conversion[index];
-                            return ListTile(
-                              title: Text(
-                                conversionItem.unitName,
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              subtitle: Text(
-                                conversionItem.unitAbbreviation,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                              ),
-                              trailing: Text(
-                                conversionData.result(
-                                  unitName: conversionItem.unitName,
-                                ),
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.grey[700]),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return Divider();
-                          },
-                          itemCount: conversion.length,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
               },
             );

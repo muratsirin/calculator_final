@@ -1,3 +1,4 @@
+import 'package:calculator_final/constants.dart';
 import 'package:calculator_final/provider/conversion_data.dart';
 import 'package:calculator_final/provider/utils.dart';
 import 'package:calculator_final/view/screens/conversion_screen.dart';
@@ -5,6 +6,7 @@ import 'package:calculator_final/view/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -40,7 +42,7 @@ class AppDrawer extends StatelessWidget {
                         return ListTile(
                           leading: Icon(
                             listTileData.iconData,
-                            color: Color(0xffe30997),
+                            color: kOperatorTextColor,
                             size: 30,
                           ),
                           title: Text(
@@ -88,13 +90,19 @@ class AppDrawer extends StatelessWidget {
                       fontSize: 18,
                     ),
                   ),
-                  value: false,
+                  activeColor: kOperatorTextColor,
+                  value: ThemeProvider.themeOf(context).id == 'dark_theme'
+                      ? true
+                      : false,
                   secondary: Icon(
                     FontAwesomeIcons.moon,
-                    color: Color(0xff004f94),
+                    color: kOperatorTextColor,
                     size: 30,
                   ),
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    Provider.of<Utils>(context, listen: false)
+                        .setThemeMode(value: value, context: context);
+                  },
                 ),
               ),
             ],

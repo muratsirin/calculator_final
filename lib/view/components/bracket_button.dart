@@ -31,13 +31,9 @@ class BracketButton extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.normal,
           fontSize: 24.0,
-          color: Colors.grey[700],
         ),
       ),
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(
-          Color(0xffffffff),
-        ),
         shape: MaterialStateProperty.all<OutlinedBorder>(
           CircleBorder(),
         ),

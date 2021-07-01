@@ -2,6 +2,8 @@ import 'package:calculator_final/view/components/scientific_numpad.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import '../../constants.dart';
+
 class ScientificKeyboard extends StatefulWidget {
   const ScientificKeyboard({Key? key}) : super(key: key);
 
@@ -92,11 +94,6 @@ class _ScientificKeyboardState extends State<ScientificKeyboard>
                 bottom: 0,
                 top: 0,
                 child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Color(0xfff0f0f0),
-                    ),
-                  ),
                   width: maxWidth,
                   child: LayoutBuilder(
                     builder: (context, BoxConstraints constraints) {
@@ -119,7 +116,7 @@ class _ScientificKeyboardState extends State<ScientificKeyboard>
                                 isOpen
                                     ? Icons.keyboard_arrow_right
                                     : Icons.keyboard_arrow_left,
-                                color: Color(0xffffffff),
+                                color: kPrimaryColorLight,
                               ),
                             ),
                           ),

@@ -1,8 +1,10 @@
 import 'package:calculator_final/constants.dart';
 import 'package:calculator_final/provider/calculator_data.dart';
 import 'package:calculator_final/provider/conversion_data.dart';
+import 'package:calculator_final/provider/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 class BackSpaceButton extends StatelessWidget {
   final List<String> buttonList;
@@ -32,7 +34,9 @@ class BackSpaceButton extends StatelessWidget {
       ),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all<Color>(
-          Color(0xffF8F8F8),
+          ThemeProvider.themeOf(context).id == 'dark_theme'
+              ? kOperatorColorDark
+              : kOperatorColorLight,
         ),
         shape: MaterialStateProperty.all<OutlinedBorder>(
           RoundedRectangleBorder(),

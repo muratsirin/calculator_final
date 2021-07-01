@@ -2,6 +2,7 @@ import 'package:calculator_final/provider/calculator_data.dart';
 import 'package:calculator_final/provider/history_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../constants.dart';
 
 class EqualButton extends StatelessWidget {
   final String buttonText;
@@ -20,9 +21,13 @@ class EqualButton extends StatelessWidget {
         builder: (context, calculatorData, child) {
           return TextButton(
             onPressed: () {
-              Provider.of<HistoryData>(context, listen: false).addHistory(
-                  processText: calculatorData.processText,
-                  result: calculatorData.result);
+              if (buttonList == kButtonNames) {
+                Provider.of<HistoryData>(context, listen: false).addHistory(
+                    processText: calculatorData.processText,
+                    result: calculatorData.result);
+              } else {
+                Navigator.pop(context);
+              }
             },
             child: Text(
               buttonText,
@@ -30,17 +35,14 @@ class EqualButton extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.normal,
                 fontSize: 24.0,
-                color: Color(0xff5FB700),
+                color: kEqualButtonColor,
               ),
             ),
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(
-                Color(0xffffffff),
-              ),
               shape: MaterialStateProperty.all<OutlinedBorder>(
                 CircleBorder(
                   side: BorderSide(
-                    color: Color(0xff5FB700),
+                    color: kEqualButtonColor,
                   ),
                 ),
               ),

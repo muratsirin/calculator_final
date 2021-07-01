@@ -2,6 +2,8 @@ import 'package:calculator_final/provider/calculator_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants.dart';
+
 class PercentageButton extends StatelessWidget {
   final String buttonText;
   const PercentageButton({
@@ -22,13 +24,9 @@ class PercentageButton extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.normal,
           fontSize: 24.0,
-          color: Colors.grey[700],
         ),
       ),
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(
-          Color(0xffffffff),
-        ),
         shape: MaterialStateProperty.all<OutlinedBorder>(
           CircleBorder(),
         ),

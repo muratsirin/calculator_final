@@ -14,9 +14,8 @@ class ScientificNumpad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xffffffff),
-      child: LayoutBuilder(
+    return Scaffold(
+      body: LayoutBuilder(
         builder: (context, BoxConstraints constraints) {
           return GridView.count(
             crossAxisCount: 5,

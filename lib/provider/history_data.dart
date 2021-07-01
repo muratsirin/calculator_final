@@ -1,8 +1,11 @@
 import 'package:calculator_final/model/history.dart';
 import 'package:calculator_final/provider/calculator_data.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HistoryData extends CalculatorData {
+class HistoryData with ChangeNotifier {
   late SharedPreferences sharedPreferences;
   String stringValue = '';
   String text = '';
@@ -24,5 +27,21 @@ class HistoryData extends CalculatorData {
     historyList =
         History.decode(sharedPreferences.getString('history').toString());
     return historyList;
+  }
+
+  void deleteHistory(int id) async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    int historyIndex = historyList.indexWhere((element) => element.id == id);
+    historyList.removeAt(historyIndex);
+    encodedData = History.encode(historyList);
+    sharedPreferences.setString('history', encodedData);
+    notifyListeners();
+  }
+
+  void deleteAllHistory() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    historyList.clear();
+    sharedPreferences.remove('history');
+    notifyListeners();
   }
 }

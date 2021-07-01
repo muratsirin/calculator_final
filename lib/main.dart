@@ -2,16 +2,19 @@ import 'package:calculator_final/provider/calculator_data.dart';
 import 'package:calculator_final/provider/conversion_data.dart';
 import 'package:calculator_final/provider/history_data.dart';
 import 'package:calculator_final/provider/utils.dart';
+import 'package:calculator_final/view/components/my_behavior.dart';
+import 'package:calculator_final/view/components/theme_data_dark.dart';
+import 'package:calculator_final/view/components/theme_data_light.dart';
 import 'package:calculator_final/view/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 void main() {
   runApp(Calculator());
 }
 
 class Calculator extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -29,10 +32,40 @@ class Calculator extends StatelessWidget {
           create: (context) => HistoryData(),
         ),
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        home: HomeScreen(),
-      ),
+      builder: (context, child) {
+        return ThemeProvider(
+          saveThemesOnChange: true,
+          loadThemeOnInit: true,
+          themes: [
+            AppTheme(
+              id: 'light_theme',
+              data: themeDataLight(context),
+              description: 'Light Theme',
+            ),
+            AppTheme(
+              id: 'dark_theme',
+              data: themeDataDark(context),
+              description: 'Dark Theme',
+            ),
+          ],
+          child: ThemeConsumer(
+            child: Builder(
+              builder: (themeContext) {
+                return MaterialApp(
+                  builder: (context, child) {
+                    return ScrollConfiguration(
+                      behavior: MyBehavior(),
+                      child: child!,
+                    );
+                  },
+                  home: HomeScreen(),
+                  theme: ThemeProvider.themeOf(themeContext).data,
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }
