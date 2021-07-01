@@ -18,13 +18,9 @@ class CalculatorData with ChangeNotifier {
     notifyListeners();
   }
 
-  String get controllerText {
-    return displayText;
-  }
-
   String get displayTextLastCharacter {
     if (displayText != '') {
-      return controllerText.characters.last;
+      return displayText.characters.last;
     } else {
       return '';
     }
@@ -47,7 +43,7 @@ class CalculatorData with ChangeNotifier {
   }
 
   void bracketPressed({required String buttonText}) {
-    if (controllerText != '') {
+    if (displayText != '') {
       if (buttonText == '(') {
         if (!operators.contains(displayTextLastCharacter) &&
             displayTextLastCharacter != '(') {
@@ -112,7 +108,7 @@ class CalculatorData with ChangeNotifier {
         break;
       case '√':
         if (numberText != '' && !operators.contains(displayTextLastCharacter)) {
-          processText += '×√';
+          processText += '*√';
           numberText = '';
         } else {
           processText += buttonText;
@@ -120,7 +116,7 @@ class CalculatorData with ChangeNotifier {
         break;
       case 'e':
         if (numberText != '' && !operators.contains(displayTextLastCharacter)) {
-          processText += '×e';
+          processText += '*e';
           numberText = '';
         } else {
           processText += buttonText;
@@ -128,12 +124,17 @@ class CalculatorData with ChangeNotifier {
         break;
       case 'π':
         if (numberText != '' && !operators.contains(displayTextLastCharacter)) {
-          processText += '×π';
+          processText += '*π';
           numberText = '';
         } else {
           processText += buttonText;
         }
         break;
+      case '^':
+        processText += buttonText;
+        break;
+      case '!':
+        processText += buttonText;
     }
 
     displayText += buttonText;
@@ -155,10 +156,12 @@ class CalculatorData with ChangeNotifier {
   }
 
   void deleteCharacter() {
-    if (controllerText != '' && processText != '' && expression != '') {
+    if (displayText != '' && processText != '' && expression != '') {
       displayText = displayText.substring(0, displayText.length - 1);
       processText = processText.substring(0, processText.length - 1);
+
       // expression = expression.substring(0, expression.length - 1);
+      numberText = '';
     }
     notifyListeners();
   }
@@ -174,12 +177,26 @@ class CalculatorData with ChangeNotifier {
   void clearPressed() {
     displayText = '';
     processText = '';
+    numberText = '';
     result = '0';
+    notifyListeners();
+  }
+
+  void equalButtonPressed() {
+    displayText = result;
     notifyListeners();
   }
 
   String textResult() {
     double value;
+
+    if (displayText != '') {
+      if (processLastCharacter == '*') {
+        processText = processText.substring(0, processText.length - 1);
+      } else {
+        processText = processText;
+      }
+    }
 
     expression = processText;
     expression += ")" *
@@ -205,7 +222,7 @@ class CalculatorData with ChangeNotifier {
       value = exp.evaluate(EvaluationType.REAL, contextModel);
       result = value.toString();
     } catch (e) {
-      if (displayText != '' && !result.isNotEmpty) {
+      if (displayText != '') {
         result = 'Hatalı ifade';
       } else {
         result = result;
@@ -218,6 +235,10 @@ class CalculatorData with ChangeNotifier {
     } else {
       result = result.replaceAll(RegExp(r"([,]*0)(?!.*\d)"), "");
     }
+
+    print('displayText' + displayText);
+    print('processText' + processText);
+    print('result' + result);
 
     return result;
   }

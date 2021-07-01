@@ -25,6 +25,8 @@ class EqualButton extends StatelessWidget {
                 Provider.of<HistoryData>(context, listen: false).addHistory(
                     processText: calculatorData.processText,
                     result: calculatorData.result);
+                Provider.of<CalculatorData>(context, listen: false)
+                    .equalButtonPressed();
               } else {
                 Navigator.pop(context);
               }
